@@ -1,0 +1,236 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-right-group { display: inline-flex; gap: 8px; align-items: center; margin-left: 12px; }
+
+/* allow flex children to shrink to avoid forcing horizontal scroll */
+.header-left, .header-center, .header-right { min-width: 0; }
+
+.header-center {
+  /* place the editor controls immediately to the right of the logo */
+  position: static;
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.logo-icon {
+  font-size: 20px;
+}
+
+.header-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--panel-2);
+  border-radius: 4px;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.header-btn:hover:not(:disabled) {
+  background: var(--hover);
+}
+
+.header-btn.active {
+  background: rgba(112,70,250,0.12);
+  border: 1px solid rgba(112,70,250,0.18);
+  box-shadow: 0 2px 8px rgba(112,70,250,0.06);
+}
+
+.header-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.header-btn.icon-only {
+  padding: 6px;
+}
+
+/* Project title input in header (editor) */
+.header-title-input {
+  min-width: 220px;
+  max-width: 420px;
+  height: 32px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  outline: none;
+  transition: box-shadow 0.12s, border-color 0.12s;
+}
+.header-title-input::placeholder { color: var(--muted); }
+.header-title-input:focus { box-shadow: 0 0 0 3px rgba(112,70,250,0.08); border-color: rgba(112,70,250,0.6); }
+.header-title-input:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  margin: 0 4px;
+}
+
+.version {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Mobile tweaks: hide button labels and shrink header items for small screens */
+@media (max-width: 767px) {
+  .logo-icon { width: 25px !important; margin-right: 10px; }
+  .logo-text { display: none; }
+  
+  .header {
+    padding: 0 8px;
+    height: 44px;
+  }
+  /* Make center flow in normal document flow on small screens */
+  .header-center {
+    position: static;
+    transform: none;
+    margin: 0 auto;
+    gap: 6px;
+  }
+  /* Compact header buttons on small screens; keep app title visible */
+  .header-center .header-btn:not(.icon-only) span {
+    display: none;
+  }
+  /* Hide header-right button labels (Editor/Projects/Profile) to save space */
+  .header-right .header-btn:not(.icon-only) span {
+    display: none;
+  }
+  /* Keep the title input visible on small screens so users can see/edit project title */
+  .header-title-input { display: inline-block; min-width: 100px; max-width: 160px; width: 100%; box-sizing: border-box; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* Reduce icon sizes and gaps for editor-mode icons on small screens */
+  .header-btn svg, .header-btn .header-email-icon { width: 14px; height: 14px; }
+  /* Reduce spacing between header groups (override inline gap) */
+  .header-right > div, .header-left, .header-center { gap: 6px !important; }
+  .header-btn { padding: 6px; }
+
+  /* Show a compact profile icon on small screens and hide the long email text by default */
+  .header-right .header-email-btn .header-email-text { display: none; }
+  .header-right .header-email-btn .header-email-icon { display: inline-block; }
+
+  /* Hide the normal right-side buttons and show the kebab menu instead */
+  .header-right-group { display: none !important; }
+  .header-kebab-btn { display: inline-flex !important; }
+  /* Ensure header doesn't cause horizontal scrolling */
+  .header { overflow: hidden; }
+  /* Position the kebab menu as fixed on small screens so it's not clipped by header overflow */
+  .kebab-menu {
+    position: fixed;
+    right: 8px;
+    top: 52px; /* below header */
+    z-index: 9999;
+    min-width: 160px;
+  }
+  .header-btn {
+    padding: 6px;
+    font-size: 12px;
+  }
+}
+
+/* Ensure kebab menu does not show on larger screens even if state is open */
+@media (min-width: 768px) {
+  .kebab-menu { display: none !important; }
+}
+
+/* On very small screens, hide the email text and show the compact icon instead */
+@media (max-width: 420px) {
+  .logo-text { display: none; }
+  .header-right .header-email-btn .header-email-text { display: none; }
+  .header-right .header-email-btn .header-email-icon { display: inline-block; }
+}
+
+/* Extra-tight compact rules for very small screens */
+@media (max-width: 360px) {
+  /* hide the logo text to free space */
+  .logo-text { display: none; }
+  /* show a smaller icon and tighter spacing */
+  .header-btn svg, .header-btn .header-email-icon { width: 12px; height: 12px; }
+  .header-right > div, .header-left, .header-center { gap: 4px !important; }
+  .header-btn { padding: 4px; }
+}
+
+/* Kebab/menu styles */
+.header-kebab-btn { display: none; align-items: center; justify-content: center; pointer-events: auto; }
+.header-kebab-btn svg { pointer-events: none; }
+.kebab-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  border-radius: 6px;
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 60;
+  min-width: 140px;
+}
+.kebab-menu.open { display: flex; }
+.kebab-item {
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 6px 10px;
+  border-radius: 4px;
+  color: var(--text);
+  cursor: pointer;
+}
+.kebab-item:hover { background: var(--hover); }
+
+/* Show profile icon alone for medium/smaller desktops (tablet -> small desktop) */
+@media (min-width: 768px) and (max-width: 1199px) {
+  /* show only profile icon (hide long email) */
+  .header-right .header-email-btn .header-email-text { display: none; }
+  .header-right .header-email-btn .header-email-icon { display: inline-block; }
+
+  /* Collapse Open / Save / Export to icons only to save horizontal space */
+  .header-center .header-btn:not(.icon-only) span { display: none; }
+  /* Slightly reduce icon size and padding to better fit medium screens */
+  .header-btn svg, .header-btn .header-email-icon { width: 14px; height: 14px; }
+  .header-center { gap: 6px; }
+  .header-btn { padding: 6px; }
+}
+
+/* Force fixed positioning for the kebab menu on small screens so it's not clipped */
+@media (max-width: 767px) {
+  .kebab-menu {
+    position: fixed !important;
+    right: 8px !important;
+    top: 52px !important;
+    z-index: 9999 !important;
+    min-width: 160px !important;
+  }
+}

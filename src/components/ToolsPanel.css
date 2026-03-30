@@ -1,0 +1,222 @@
+.tools-panel {
+  width: 100px;
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+
+/* Presets dropdown: allow scrolling on small screens */
+.preset-dropdown {
+  /* default: allow content to size naturally on desktop */
+  max-height: none;
+}
+
+@media (max-width: 767px) {
+  .preset-dropdown {
+    max-height: 220px; /* limit height on small screens */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 6px 0;
+    z-index: 99999 !important; /* ensure menu renders above canvas and panels on small screens */
+  }
+
+  /* Optional: slightly larger touch targets inside dropdown */
+  .preset-dropdown .preset-item {
+    padding: 10px 12px;
+  }
+
+  /* Simple scrollbar styling for modern browsers */
+  .preset-dropdown::-webkit-scrollbar {
+    width: 8px;
+  }
+  .preset-dropdown::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.12);
+    border-radius: 4px;
+  }
+}
+  /* Allow overflow so dropdowns can extend outside the narrow panel without being clipped */
+  overflow: visible;
+}
+
+.tools-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 6px;
+  margin-bottom: 12px;
+}
+
+.tools-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+   padding: 6px 6px 4px 6px;
+   margin: 0 0 6px 0;
+   /* Ensure title appears above its list in flex ordering */
+   order: -1;
+   z-index: 2;
+  word-break: break-word;
+  white-space: normal;
+  line-height: 1.2;
+}
+
+.tools-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 0;
+}
+
+/* Desktop: ensure each tool container stacks vertically and centers its subpanel/content */
+.tools-list > div { display: flex; flex-direction: column; align-items: center; }
+
+.tool-btn {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  gap: 0;
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.2s;
+  position: relative;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.tool-btn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.tool-btn.active {
+  background: var(--accent);
+  color: var(--text);
+}
+
+.tool-btn.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: var(--text);
+  border-radius: 0 2px 2px 0;
+}
+
+/* Tooltip on hover */
+.tool-btn[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--panel-2);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  margin-left: 12px;
+  z-index: 999;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  display: none;
+}
+
+.tool-btn[data-tooltip]:hover::after {
+  opacity: 1;
+  display: block;
+}
+
+/* Subpanel below tools for sliders and controls */
+.tool-subpanel {
+  padding: 6px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Desktop: constrain subicon panels so they fit inside the narrow tools column and remain centered */
+.subicons-wrapper { justify-content: center; }
+.subicon-panel {
+  max-width: 84px; /* slightly smaller than .tools-panel width (100px) to avoid overflow */
+  width: calc(100% - 12px);
+  margin: 6px auto 0;
+  box-sizing: border-box;
+  padding: 0 6px;
+}
+/* Ensure small stacked subicons on desktop as well as mobile */
+.subicon-btn {
+  width: 36px;
+  height: 36px;
+}
+.tool-subpanel input[type="range"] {
+  width: 100%;
+  margin: 4px 0;
+  box-sizing: border-box;
+  padding: 0;
+}
+.tool-subpanel input[type="color"] {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+}
+.tool-subpanel .tool-btn {
+  width: 36px;
+  height: 36px;
+}
+/* compact variant for small inline restorer panel */
+.tool-subpanel.compact { padding: 4px 6px }
+.tool-subpanel.compact .tool-btn { width: 32px; height: 32px }
+
+/* Mobile: compact horizontal tools bar */
+@media (max-width: 767px) {
+  .tools-section {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 0 6px;
+  }
+  .tools-section-title {
+    display: none;
+  }
+  .tools-list {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+  .tool-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 14px;
+  }
+  /* Allow tool subpanels to appear as small panels under each subicon and place subicons to the right of main button */
+  .tool-subpanel { display: flex; margin-top: 6px; }
+  .subicons-wrapper { display: flex; align-items: center; gap: 6px; }
+  .subicons-vertical { flex-direction: column; }
+  .subicon-btn { width: 36px; height: 36px; }
+  .subicon-panel { display: none; }
+  /* When a subicon panel should be visible (JS renders it), ensure it is shown and constrained */
+  .subicon-panel { display: block; background: transparent; }
+  /* Ensure each tool container lays out horizontally so subicons sit to the right of the main button */
+  .tools-list > div { display: flex; flex-direction: row; align-items: center; gap: 6px; margin-right: 8px; }
+  /* Expand tools-panel height to accommodate subpanels when visible */
+  .tools-panel { height: auto !important; padding-bottom: 8px; flex-wrap: wrap; }
+  /* On touch devices, tooltips are unreliable; hide tooltip pseudo-elements */
+  .tool-btn[data-tooltip]::after { display: none !important; }
+}

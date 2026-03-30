@@ -1,0 +1,212 @@
+/* Load Lexend font from Google Fonts for site-wide use */
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Dark theme palette */
+  --bg: #0b0b0f;
+  --bg-2: #0f0f14;
+  --panel: #121216;
+  --panel-2: #16161a;
+  --control-bg: #1a1a1d;
+  --border: #222226;
+  --muted: #9a9a9a;
+  --muted-2: #3a3a3a;
+  --hover: #222226;
+  /* Accent colors provided by user */
+  --accent: #7046FA;
+  --accent-contrast: #D7CBFF;
+  /* Where white was previously used for contrast, use the provided light accent */
+  --text: #D7CBFF;
+  --text-strong: #e9e6ff;
+}
+
+body {
+  font-family: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--panel);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-2);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hover);
+}
+
+/* Input range styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--muted-2);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: none;
+}
+
+/* Button reset */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+/* Selection */
+::selection {
+  background: var(--accent);
+  color: var(--text);
+}
+
+/* Small icon button used across project cards */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px;
+  background: var(--panel-2);
+  border-radius: 6px;
+  transition: background 0.12s;
+}
+.icon-btn:hover {
+  background: var(--hover);
+}
+
+/* Rename input inside project cards */
+.project-rename-input {
+  min-width: 64px;
+  max-width: 140px;
+  height: 32px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  outline: none;
+}
+.project-rename-input:focus { box-shadow: 0 0 0 3px rgba(112,70,250,0.08); border-color: rgba(112,70,250,0.6); }
+
+/* Header email button: constrain width and show ellipsis */
+.header-email-btn {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Header menu dropdown */
+.header-menu {
+  position: absolute;
+  right: 8px;
+  top: 44px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px;
+  width: 160px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  z-index: 60;
+}
+.header-menu-item {
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.header-menu-item:hover { background: var(--hover); }
+.header-menu-item.active { background: rgba(112,70,250,0.12); font-weight: 700; }
+
+.header-menu-toggle { padding: 6px; }
+
+/* Title inside project card: clamp to 2 lines and truncate with ellipsis if too long */
+.project-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.15;
+}
+
+/* Blurred background for pages that use .page-inner (Projects, Profile) */
+.page-inner {
+  position: relative;
+  z-index: 1;
+  min-height: 100%;
+  /* Prevent the blurred background from increasing layout size and
+     causing scrollbars; clip the pseudo-element while allowing child
+     content to scroll inside the viewport. */
+  overflow: hidden;
+}
+.page-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/Background.png');
+  background-size: cover;
+  background-position: center center;
+  transform: scale(1.03);
+  /* stronger blur than login to give a softer backdrop for content */
+  filter: blur(18px) brightness(0.86);
+  z-index: 0;
+  pointer-events: none;
+}
+.page-inner > * {
+  position: relative;
+  z-index: 2;
+  /* Allow page content to scroll inside the clipped container without
+     the blurred background creating additional scrollable area. */
+  overflow: auto;
+  max-height: 100vh;
+}

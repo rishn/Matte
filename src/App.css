@@ -1,0 +1,83 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: var(--bg);
+}
+
+.workspace {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Page content wrapper for standalone pages (projects, login, verify) */
+.page-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0; /* allow children to scroll */
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  background: var(--panel);
+  border-left: 1px solid var(--border);
+}
+
+/* Mobile responsiveness: for widths < 768px stack panels and ensure canvas gets full width/height */
+@media (max-width: 767px) {
+  .workspace {
+    flex-direction: column;
+    align-items: stretch;
+    overflow: visible;
+  }
+  /* Tools should become a top horizontal bar */
+  .tools-panel {
+    width: 100% !important;
+    height: 56px;
+    display: flex;
+    flex-direction: row;
+    padding: 8px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex: 0 0 auto;
+  }
+  /* Canvas occupies the remaining vertical space and is full-width */
+  .canvas-container {
+    order: 2;
+    width: 100% !important;
+    flex: 1 1 auto;
+    min-height: 320px;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+  /* Right panel moves below canvas */
+  .right-panel {
+    width: 100% !important;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    order: 3;
+    /* Restrict right panel height on small screens so canvas remains prominent */
+    max-height: 300px;
+    overflow: auto;
+  }
+  /* Make right-panel children split available height equally and scroll independently */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+  }
+  .right-panel > .properties-panel,
+  .right-panel > .layers-panel {
+    flex: 1 1 50%;
+    min-height: 0; /* allow flex children to shrink and enable scrolling */
+    overflow-y: auto;
+  }
+  /* Prevent workspace from creating horizontal scrollbar */
+  .workspace { overflow-x: hidden; }
+}

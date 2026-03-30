@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "default": "<YOUR_FIREBASE_PROJECT_ID>"
+  }
+}
+{
+  "projects": {
+    "default": "matte-educify-app"
+  }
+}

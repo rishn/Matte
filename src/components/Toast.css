@@ -1,0 +1,15 @@
+.global-toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(12,10,15,0.88);
+  color: #E9E6FF;
+  padding: 10px 14px;
+  border-radius: 8px;
+  z-index: 9999;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  font-weight: 400;
+  max-width: 80%;
+  text-align: center;
+}

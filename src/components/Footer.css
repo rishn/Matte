@@ -1,0 +1,39 @@
+.footer {
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.footer-content {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  font-weight: 500;
+}
+
+.footer-left {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Compact footer adjustments for very small screens */
+@media (max-width: 360px) {
+  .footer {
+    padding: 16px 12px; /* a bit taller so centered text has more room */
+  }
+  .footer-content {
+    font-size: 11px;
+  }
+  .footer-left {
+    bottom: 8px;
+    left: 8px;
+    font-size: 10px;
+  }
+}
