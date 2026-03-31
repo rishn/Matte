@@ -34,7 +34,7 @@ jobs:
 
       - name: Deploy to Firebase Hosting (service account)
         env:
-          PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
           if [ -z "$FIREBASE_SERVICE_ACCOUNT" ]; then
