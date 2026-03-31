@@ -32,9 +32,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+      - name: Deploy to Firebase Hosting (using CI token)
+        # Using a CI token avoids service-account IAM edge-cases for preview deploys.
+        # Create a token locally with `firebase login:ci` and add it as repo secret `FIREBASE_TOKEN`.
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          if [ -z "$FIREBASE_TOKEN" ]; then
+            echo "Missing FIREBASE_TOKEN secret. Create one via 'firebase login:ci' and add it to repo secrets as FIREBASE_TOKEN.";
+            exit 1;
+          fi
+          npx firebase-tools@latest deploy --only hosting --project "$PROJECT_ID" --token "$FIREBASE_TOKEN" --non-interactive
