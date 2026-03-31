@@ -29,12 +29,24 @@ jobs:
         # For reproducible builds, consider committing package-lock.json and using `npm ci`.
         run: npm install
 
+      - name: Write production env file
+        # Create a Vite-friendly env file so values are embedded at build time.
+        run: |
+          cat > .env.production <<'EOF'
+          VITE_FIREBASE_API_KEY=${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN=${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID=${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID=${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_FIREBASE_CONTINUE_URL=${{ secrets.VITE_FIREBASE_CONTINUE_URL }}
+          VITE_API_URL=${{ secrets.VITE_API_URL }}
+          EOF
+
       - name: Build
         run: npm run build
 
       - name: Deploy to Firebase Hosting (service account)
         env:
-          PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
@@ -51,4 +63,4 @@ jobs:
           echo "$FIREBASE_SERVICE_ACCOUNT" > /tmp/firebase-sa.json
           export GOOGLE_APPLICATION_CREDENTIALS=/tmp/firebase-sa.json
           # Deploy hosting to the specified project (production). To deploy to a preview channel, add --message or --only hosting:channel:deploy with --channelId.
-          npx firebase-tools@latest deploy --only hosting --project "$PROJECT_ID" --non-interactive
+          npx firebase-tools@latest deploy --only hosting --project "$VITE_FIREBASE_PROJECT_ID" --non-interactive
