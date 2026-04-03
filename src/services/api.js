@@ -19,9 +19,17 @@ export const autoSegment = async (imageFile) => {
   const formData = new FormData()
   formData.append('file', imageFile)
   // Let the browser set the Content-Type including the boundary for multipart/form-data
-  const response = await axios.post(`${API_BASE_URL}/segment/auto`, formData)
-  
-  return response.data
+  try {
+    const response = await axios.post(`${API_BASE_URL}/segment/auto`, formData)
+    return response.data
+  } catch (err) {
+    // If the origin returned a 502 Bad Gateway (edge or upstream crash), provide a friendly message
+    if (err && err.response && err.response.status === 502) {
+      throw new Error('Auto remove service may be temporarily unavailable. This can happen for large file uploads — please try again later, preferably with a smaller file.')
+    }
+    // Re-throw other errors for existing handlers to deal with
+    throw err
+  }
 }
 
 // Auto segmentation starting from a base64 data URL
