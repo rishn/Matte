@@ -1,4 +1,4 @@
-# <img src="assets/Matte.png" alt="Wordler logo" width="22" height="22" /> Matte: UI
+# <img src="assets/Matte.png" alt="Wordler logo" width="22" height="22" /> Matte - UI
 
 <p align="center">
   <img src="assets/Expanse.png" alt="Expanse" width="60%" height="60%" />

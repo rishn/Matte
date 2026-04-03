@@ -18,10 +18,8 @@ export const fileToBase64 = (file) => {
 export const autoSegment = async (imageFile) => {
   const formData = new FormData()
   formData.append('file', imageFile)
-  
-  const response = await axios.post(`${API_BASE_URL}/segment/auto`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  })
+  // Let the browser set the Content-Type including the boundary for multipart/form-data
+  const response = await axios.post(`${API_BASE_URL}/segment/auto`, formData)
   
   return response.data
 }
