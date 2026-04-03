@@ -21,7 +21,7 @@ export const autoSegment = async (imageFile) => {
   // Let the browser set the Content-Type including the boundary for multipart/form-data
   try {
     // Add client-side timeout to avoid hanging; 30s chosen as a reasonable upper bound
-    const response = await axios.post(`${API_BASE_URL}/segment/auto`, formData, { timeout: 30000 })
+    const response = await axios.post(`${API_BASE_URL}/segment/auto`, formData, { timeout: 100000 })
     return response.data
   } catch (err) {
     const status = err?.response?.status
