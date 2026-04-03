@@ -3,7 +3,6 @@
 <p align="center">
   <img src="assets/Expanse.png" alt="Expanse" width="60%" height="60%" />
 </p>
-
 <p align="center">
   <img alt="React" src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black" />
   <img alt="Vite" src="https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white" />
