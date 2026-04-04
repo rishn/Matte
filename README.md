@@ -1,8 +1,8 @@
-# <img src="assets/Matte.png" alt="Wordler logo" width="22" height="22" /> Matte - UI
-
+# <img src="assets/Matte.png" alt="Matte logo" width="22" height="22" /> Matte - UI
 <p align="center">
   <img src="assets/Expanse.png" alt="Expanse" width="60%" height="60%" />
 </p>
+
 <p align="center">
   <img alt="React" src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black" />
   <img alt="Vite" src="https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white" />
@@ -20,30 +20,60 @@
   <img alt="Supabase" src="https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white" />
 </p>
 
-**Matte,** a professional-grade photo editing web application with **AI-powered background removal** and comprehensive photo editing features. Built with zero-cost deployment in mind using open-source models. This repository contains the frontend workspace of the application.
+**Matte,** a professional-grade photo editing web application with **AI-powered background removal, segmentation** and comprehensive photo editing features. Built with zero-cost deployment in mind using open-source models. This repository contains the frontend workspace of the application.
 
-## ✨ Features
+![Editor](assets/Editor.png)
 
-### 🤖 AI-Powered Tools
+<p align="center">
+  <a href="https://matte-educify-app.web.app" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/Open%20Deployed%20Site-Visit-blue?style=for-the-badge" alt="Open deployed site" />
+  </a>
+</p>
+
+## Demos
+
+- Desktop Demo 
+
+<p align="center">
+  <a href="https://drive.google.com/file/d/1nsE5mgC_IrErSmwBttrUX9DTZVUw6cI1/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+    <img src="https://github.com/user-attachments/assets/8574a4a7-40a0-40f9-bde4-b95663f55779" alt="Desktop Demo" width="600" />
+  </a>
+</p>
+
+
+## Features
+
+### AI-Powered Tools
 - **Automatic Background Removal**: U²-Net for fast, accurate salient object detection
 - **Magic Wand Tool**: SAM (Segment Anything Model) for interactive segmentation with point/box prompts
 - **Smart Masking**: Morphological refinement and feathering for professional results
 
-### 🎨 Photo Editing
+### Photo Editing
 - **Adjustments**: Brightness, Contrast, Exposure, Saturation
 - **Color Grading**: Temperature, Tint controls
 - **Tone Controls**: Highlights, Shadows
 - **Effects**: Vignette, Sharpness
 - **Preset Filters**: Vintage, Cinematic, B&W, Warm, Cool, Dramatic, Soft, Vivid, Sepia, Fade
 
-### 🖥️ Photoshop-like Interface
+### Photoshop-like Interface
 - Professional dark theme UI
 - Tool panel with selection, magic wand, eraser, move, and box select tools
 - Real-time canvas editing with Konva
 - Properties panel with collapsible sections
 - Layers panel for organization
 
-## 🚀 Zero-Cost Setup
+## Screenshots (Edited with Matte!)
+
+- Projects Page
+![Projects](assets/Projects.png)
+
+- Using Crop Tool
+![Crop Tool](assets/CropTool.png)
+
+- Sign Up Page
+![Sign Up](assets/SignUp.png)
+
+## Zero-Cost Setup
 
 This application is designed to run **completely free** using:
 - **Local CPU inference** (no cloud GPU costs)
@@ -53,14 +83,14 @@ This application is designed to run **completely free** using:
 - **Optional authentication and verification** (Firebase Auth, Firestore)
 - **Optional object storage** (Supabase Storage) for storing full-resolution project images and reducing Firestore document sizes
 
-## 📋 Prerequisites
+## Prerequisites
 
 - **Python 3.10+** with pip
 - **Node.js 16+** with npm
 - **4GB+ RAM** (8GB+ recommended for SAM)
 - **Git**
 
-## ⚡ Quick Start
+## Quick Start
 
 ### 1. Backend Setup
 
@@ -105,7 +135,7 @@ Visit: https://drive.google.com/file/d/1rbSTGKAE-MTxBYHd-51l2hMOQPT_7EPy/view
 Download to: .\backend\models\weights\u2netp.pth
 ```
 
-**SAM Weights (optional, for magic wand tool):** (SAM ViT-B) — optional for interactive segmentation
+**SAM Weights:** (SAM ViT-B) — for interactive segmentation
 ```powershell
 # Download SAM ViT-B (smallest, fastest for CPU)
 Visit: https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth
@@ -140,7 +170,7 @@ Download to: .\backend\models\weights\sam_vit_b_01ec64.pth
 
 3. The application is ready to test.
 
-## 📖 Usage Guide
+## Usage Guide
 
 ### Basic Workflow
 
@@ -176,7 +206,7 @@ Download to: .\backend\models\weights\sam_vit_b_01ec64.pth
 | Pen | ✏️ | Add annotations and edits to images |
 | Box Select | ⬜ | Rectangle selection for SAM |
 
-## 🎛️ API Endpoints
+## API Endpoints
 
 ### Background Removal
 - `POST /api/segment/auto` - Automatic segmentation (U²-Net) (multipart form-data file upload)
@@ -208,7 +238,7 @@ All Node dependencies for the UI are declared in `frontend/package.json`. Key pa
 - `lucide-react` — icons
 - `react-dropzone` — file drop handling
 
-## 🔧 Configuration
+## Configuration
 
 ### GPU Acceleration (Optional)
 
@@ -222,7 +252,7 @@ pip uninstall torch torchvision
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Matte/
@@ -255,7 +285,7 @@ Matte/
 └── segment-anything/                  # Cloned repo (gitignored)
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 - Start the backend first so the frontend proxy can reach `/api`.
 - If you change Python dependencies, re-create the venv and `pip install -r requirements.txt`.
@@ -376,7 +406,7 @@ pip install dnspython
 
 The frontend uses this endpoint before attempting signup; the check is best-effort and will not block signup on transient network/DNS errors by default.
 
-## 🎯 Roadmap
+## Roadmap
 
 - [X] Filters + custom adjustments utility
 - [X] History/undo system
@@ -385,7 +415,7 @@ The frontend uses this endpoint before attempting signup; the check is best-effo
 - [X] Save and work with multiple projects
 - [ ] Explore other AI features
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [U²-Net](https://github.com/NathanUA/U-2-Net) by Xuebin Qin et al.
 - [Segment Anything](https://github.com/facebookresearch/segment-anything) by Meta AI
@@ -393,3 +423,6 @@ The frontend uses this endpoint before attempting signup; the check is best-effo
 
 **Built using zero-cost, open-source tools**
 
+## Notes
+
+** *Subject segmentation (subject select) is disabled in hosted application, to deploy the remaining features smoothly using available free hosting services*

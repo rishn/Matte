@@ -51,7 +51,7 @@ function Header() {
     }
   }
 
-  const handleExport = () => {
+  const handleExport = async () => {
     if (!currentImage) return
     if (!user) {
       // redirect to sign-in when trying to export without auth
@@ -60,10 +60,48 @@ function Header() {
     }
     if (user && user.emailVerified === false) { alert('Please verify your email before exporting images'); return }
 
-    const link = document.createElement('a')
-    link.href = currentImage
-    link.download = `matte-${Date.now()}.png`
-    link.click()
+    // If currentImage is a remote URL (e.g. Supabase signed URL), fetch it as a blob
+    try {
+      let blob = null
+      if (typeof currentImage === 'string' && (currentImage.startsWith('http://') || currentImage.startsWith('https://'))) {
+        const res = await fetch(currentImage)
+        if (!res.ok) throw new Error('Failed to fetch image for export')
+        blob = await res.blob()
+      } else if (typeof currentImage === 'string' && currentImage.startsWith('data:')) {
+        // data URL -> convert to blob
+        const parts = currentImage.split(',')
+        const meta = parts[0]
+        const b64 = parts[1]
+        const mime = meta.split(':')[1].split(';')[0]
+        const byteChars = atob(b64)
+        const byteNumbers = new Array(byteChars.length)
+        for (let i = 0; i < byteChars.length; i++) byteNumbers[i] = byteChars.charCodeAt(i)
+        const byteArray = new Uint8Array(byteNumbers)
+        blob = new Blob([byteArray], { type: mime })
+      } else {
+        // Fallback: try to download via link (may work for same-origin data)
+        const link = document.createElement('a')
+        link.href = currentImage
+        link.download = `matte-${Date.now()}.png`
+        link.click()
+        return
+      }
+
+      // Create an object URL and trigger download
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `matte-${Date.now()}.png`
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      // release memory after a short delay
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
+    } catch (e) {
+      console.error('Export failed', e)
+      try { showToast('Export failed; please try again') } catch (er) {}
+      alert('Export failed: ' + (e?.message || JSON.stringify(e)))
+    }
   }
 
 
